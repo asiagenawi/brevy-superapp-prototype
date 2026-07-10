@@ -260,7 +260,8 @@
   .push .pt{display:flex; justify-content:space-between; gap:8px; font-size:11px; color:var(--muted)}
   .push .pt b{color:var(--ink); font-size:12.5px}
   .push .pm{font-size:12.5px; color:var(--ink); line-height:1.35; margin-top:1px}
-  @media (prefers-reduced-motion: reduce){ .push{animation:none} }
+  .push.out{opacity:0; transform:translateY(-24px); transition:opacity .28s, transform .28s}
+  @media (prefers-reduced-motion: reduce){ .push{animation:none} .push.out{transition:none} }
 
   .scrim{position:absolute; inset:0; background:rgba(38,37,31,.4); z-index:30; animation:fadein .25s ease}
   @keyframes fadein{from{opacity:0}}
@@ -671,10 +672,27 @@ function toast(msg){
   el.textContent=msg; el.classList.add('show');
   clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('show'),2300);
 }
+function pushHTML(){
+  if(!S.push) return '';
+  return `<div class="push" onclick="pushTap()">
+      <span class="appic">${beeSVG(22)}</span>
+      <span class="pb"><span class="pt"><b>${S.push.title}</b><span>now</span></span>
+      <span class="pm">${S.push.body}</span></span>
+    </div>`;
+}
+function paintPush(){
+  const layer=document.getElementById('pushLayer');
+  if(layer) layer.innerHTML=pushHTML();
+}
 function showPush(p){
-  S.push=p; render();
+  S.push=p; paintPush();
   clearTimeout(showPush._t);
-  showPush._t=setTimeout(()=>{ if(S.push===p){ S.push=null; render(); } }, 5200);
+  showPush._t=setTimeout(()=>{
+    if(S.push!==p) return;
+    const el=document.querySelector('#pushLayer .push');
+    if(el){ el.classList.add('out'); setTimeout(()=>{ if(S.push===p){ S.push=null; paintPush(); } }, 300); }
+    else { S.push=null; }
+  }, 5200);
 }
 function ringBell(){
   const p=PERSONAS[S.persona];
@@ -1218,11 +1236,7 @@ function render(){
         <span class="ti">${icon(ic,21)}${bdg&&S.tab!==k?`<span class="bdg">${bdg}</span>`:''}</span>${label}</button>`).join('')}
     </div>
     <div class="homebar"></div>
-    ${S.push?`<div class="push" onclick="pushTap()">
-      <span class="appic">${beeSVG(22)}</span>
-      <span class="pb"><span class="pt"><b>${S.push.title}</b><span>now</span></span>
-      <span class="pm">${S.push.body}</span></span>
-    </div>`:''}
+    <div id="pushLayer">${pushHTML()}</div>
     ${sheetHTML()}
     <div class="toast" id="toast"></div>`;
 }

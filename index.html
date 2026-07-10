@@ -1241,5 +1241,6 @@ function render(){
     <div class="toast" id="toast"></div>`;
 }
 render();
-setPersona('maria1');
+const _q = new URLSearchParams(location.search).get('persona');
+setPersona(_q && PERSONAS[_q] ? _q : 'maria1');
 </script>

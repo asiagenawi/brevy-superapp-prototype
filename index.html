@@ -373,6 +373,13 @@
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
   @media (prefers-reduced-motion: reduce){ .toast{transition:none} .typing i{animation:none} .progress i{animation:none} .step.now i::after{animation:none} .stat,.rowcard.link,.patientcard,.fab{transition:none} }
 
+  body.shot{background:#fff; padding:12px}
+  body.shot header.page, body.shot .side, body.shot footer{display:none}
+  body.shot .layout{display:block; margin:0}
+  body.shot .phonewrap{width:414px; margin:0 auto}
+  body.shot .screen{height:auto}
+  body.shot .feed,body.shot .listpage,body.shot .thread{overflow:visible; padding-bottom:90px}
+  body.shot .fab{display:none}
   footer{margin-top:38px; text-align:center; color:var(--page-muted); font-size:12px; line-height:1.7}
   .pillars{display:flex; justify-content:center; gap:10px 26px; flex-wrap:wrap; margin-bottom:12px; font-family:var(--serif); font-size:13.5px; color:var(--page-ink)}
   .pillars span{display:flex; align-items:center; gap:7px}
@@ -1241,6 +1248,11 @@ function render(){
     <div class="toast" id="toast"></div>`;
 }
 render();
-const _q = new URLSearchParams(location.search).get('persona');
+const _qs = new URLSearchParams(location.search);
+if(_qs.get('shot')){
+  document.body.classList.add('shot');
+  Object.keys(PERSONAS).forEach(k=>S.notified[k]=true);
+}
+const _q = _qs.get('persona');
 setPersona(_q && PERSONAS[_q] ? _q : 'maria1');
 </script>

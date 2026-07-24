@@ -497,7 +497,8 @@ body{
 
 <style>
 /* ---- story-panel shell (sp-*) ---- */
-body{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-content:start;row-gap:22px;padding:34px 18px 56px;height:auto;min-height:100%;box-sizing:border-box}
+html{background:#ece7e1}
+body{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-content:start;row-gap:22px;padding:34px 18px 56px;height:auto;min-height:100%;box-sizing:border-box;background:radial-gradient(1100px 620px at 50% -120px,#eef3e8 0%,rgba(238,243,232,0) 70%) no-repeat,#ece7e1}
 .sp-masthead{display:flex;flex-direction:column;align-items:center;gap:13px;margin-bottom:2px}
 .sp-logo{display:flex;align-items:center;gap:15px}
 .sp-logo svg{height:42px;width:auto}
@@ -534,10 +535,10 @@ body{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align
 .sp-principles li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--emerald-500,#023620);flex:none;margin-top:6px}
 .sp-principles b{font-weight:700}
 .sp-principles .sp-sub{color:var(--taupe-600,#847671)}
-@media(min-width:1080px){
+@media(min-width:760px){
   body{grid-template-columns:minmax(280px,330px) 408px minmax(280px,330px);column-gap:30px;justify-content:center;justify-items:stretch}
   .sp-masthead,.stage-head{grid-column:1/-1;justify-self:center}
-  .device{justify-self:center;align-self:start}
+  .device{justify-self:center;align-self:start;height:840px;max-height:none}
   .sp-rail{max-width:none;height:100%}
   .sp-panel{flex:1 1 auto;box-sizing:border-box;display:flex;flex-direction:column}
   .sp-panel h2,.sp-lede{flex:none}
@@ -546,7 +547,7 @@ body{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align
   .sp-person{flex:1;display:flex;flex-direction:column;justify-content:center}
   .sp-half{flex:1;display:flex;flex-direction:column;justify-content:center}
 }
-@media(max-width:1079px){.sp-rail{order:5}}
+@media(max-width:759px){.sp-rail{order:5}}
 /* Rosa SMS mode */
 .device.rsms .tabbar{display:none}
 .device.rsms .island{z-index:40}
@@ -1367,6 +1368,10 @@ renderAll(); refreshIcons();
 
 </script>
 
+<script>
+function spFit(){var w=window.innerWidth;document.body.style.zoom=(w>=760&&w<1280)?Math.max(.62,Math.min(1,w/1280)):'';}
+addEventListener('resize',spFit);spFit();
+</script>
 
 <script>
 const _p=(location.hash||'').replace('#','');
